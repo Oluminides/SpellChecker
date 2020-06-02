@@ -1,0 +1,28 @@
+version: "3"
+
+services: 
+
+    web:
+        build: ./web
+        ports:
+            - "8080:80"
+
+        depends_on:
+            - db
+        volumes:
+            - ./src:/var/www/html/
+        container_name: cmpt304_web
+
+    db:
+        build: ./db
+        ports:
+            - "3306:3306"
+
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_USER=cmpt304
+            - MYSQL_PASSWORD=mmljar
+            - MYSQL_DATABASE=dictionary
+        volumes:
+            - ./db:/docker-entrypoint-initdb.d
+        container_name: cmpt304_db
