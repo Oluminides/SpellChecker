@@ -1,10 +1,18 @@
 version: "3"
 
+networks:
+  frontend:
+  backend:
+
 services:
-  # Builds server image and runs as container: cmpt304_server
-  server:
-    # Builds image using Dockerfile in ./web directory
-    build: ./server
+  # Builds server image and runs as container: cmpt304_www
+  www:
+    # Builds image using Dockerfile in ./www directory
+    build: ./www
+
+    networks:
+      - frontend
+      - backend
 
     ports:
       # 8080 is an alternative port for http to run the web server
@@ -17,11 +25,14 @@ services:
       - ./src:/var/www/html/
 
     # Server container is named
-    container_name: cmpt304_server
+    container_name: cmpt304_www
 
   db:
     # Builds database image and runs as container: cmpt304_db
     build: ./db
+
+    networks:
+      - backend
 
     # Port for MySQL Database System
     ports:
